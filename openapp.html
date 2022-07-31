@@ -3,11 +3,7 @@
 <body>
 <script>
   function openApp() {
-
-    checkTime = 800;
-    //非微信环境直接scheme拉起
-    //创建iframe，呼起app schema
-    startTime = Date.now(); //标记呼起时间点
+    g_sSchema = "getjerry://quotes"
     div = document.createElement("div");
     div.style.visibility = "hidden";
     div.innerHTML =
@@ -15,27 +11,6 @@
       g_sSchema +
       '" scrolling="no" width="1" height="1"></iframe>';
     document.body.appendChild(div);
-    //如果成功呼起，setTimeout不会立即执行
-    tid = setTimeout(function () {
-      //----再尝试拉起一次----
-      // if(isQQ){
-      // 	div = document.createElement('div');
-      // 	div.style.visibility = 'hidden';
-      // 	div.innerHTML = "<iframe id=\"schema\" src=\"" + g_sSchema + "\" scrolling=\"no\" width=\"1\" height=\"1\"></iframe>";
-      // 	document.body.appendChild(div);
-      // }
-      //----------------------
-      //如果没有呼起，或者呼起后，用户主动返回，还是有可能走进这个逻辑
-      var delta = Date.now() - startTime; //然后判断回来的时间戳
-      if (delta < checkTime + 100) {
-        //如果不是我们规定的800ms，差太多，就认为是用户手动返回的, 不跳下载
-        window.location.replace(g_sDownload); //否则跳下载
-      } else {
-        closeWXQQWebView();
-      }
-    }, checkTime);
-    //注意：ios在safari进程挂起之后，js代码还会继续运行至少500ms，这里写800来保证起效。魔法数字，有待优化。
-
   }
   
   openApp();
